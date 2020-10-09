@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tags %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <!-- Latest Posts -->
+    <main class="posts-listing col-lg-8"> 
+      <div class="container">
+        <div class="row">
+          <!-- post -->
+
+          {% for post in queryset %}
+          <div class="post col-xl-6">
+            <div class="post-thumbnail"><a href="{{ post.get_absolute_url }}"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date meta-last">{{ post.timestamp | date:'d M | yy' }}</div>
+                <div class="category">
+                {% for cat in post.categories.all %}
+                <a href="/blog/?category={{cat}}">{{ cat }}</a>
+                {% endfor %}
+                </div>
+              </div><a href="{{ post.get_absolute_url }}">
+                <h3 class="h4">{{ post.title }}</h3></a>
+              <p class="text-muted">{{ post.overview }}</p>
+              <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                  {% comment %} <div class="avatar"><img src="{{ post.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
+                  <div class="title"><span>{{ post.author.user }}</span></div></a> {% endcomment %}
+                  <div class="views"><i class="icon-eye"></i>{{ post.view_count }} </div>
+                  <div class="date"><i class="icon-clock"></i>{{ post.timestamp | timesince }} ago</div>
+              </footer>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination pagination-template d-flex justify-content-center">
+            {% if queryset.has_previous %}
+            <li class="page-item"><a href="?{% url_replace page=queryset.previous_page_number %}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+            {% comment %} <li class="page-item"><a href="#" class="page-link">{{ queryset.number | add:'-1' }}</a></li> {% endcomment %}
+            {% endif %}
+            
+            <li class="page-item"><a href="?{% url_replace page=queryset.number %}" class="page-link active">{{ queryset.number }}</a></li>
+
+            {% if queryset.has_next %}
+            {% comment %} <li class="page-item"><a href="#" class="page-link">{{ queryset.number | add:'1' }}</a></li> {% endcomment %}
+            <li class="page-item"><a href="?{% url_replace page=queryset.next_page_number %}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </main>
+    
+    {% include "sidebar.html" %}
+  </div>
+</div>
+
+{% endblock content %}
+
+

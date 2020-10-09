@@ -1,0 +1,12 @@
+-f /usr/share/pip-wheels
+asgiref==3.2.10
+Django==3.1.2
+django-appconf==1.0.4
+django-tinymce4-lite==1.8.0
+jsmin==2.2.2
+lazy-object-proxy==1.4.3
+Pillow==7.2.0
+pytz==2020.1
+six==1.15.0
+sqlparse==0.3.1
+wrapt==1.12.1
